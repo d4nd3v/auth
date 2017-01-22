@@ -4,7 +4,7 @@ namespace D4nd3v\Auth;
 
 use Illuminate\Support\ServiceProvider;
 
-class CRUDServiceProvider extends ServiceProvider {
+class AuthServiceProvider extends ServiceProvider {
 
     protected $commands = [
         'D4nd3v\Auth\AuthCommand',

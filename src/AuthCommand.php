@@ -5,7 +5,7 @@ namespace D4nd3v\Auth;
 use Illuminate\Console\Command;
 use League\Flysystem\Directory;
 
-class CRUDCommand extends Command
+class AuthCommand extends Command
 {
     /**
      * The name and signature of the console command.
