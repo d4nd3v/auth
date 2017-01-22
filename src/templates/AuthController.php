@@ -36,54 +36,57 @@ class AuthController extends BaseController
 
 
 
-/*
-
-    Activation - Notification - Permsssion
-
-    // WEB - Password reset
-    Login -> link : Forgot password [Form] {AuthController@showLinkRequestForm--email.blade.php}
-            -> POST:/password/email:AuthController@sendResetLinkEmail -> action:send_mail [Link]
-                -> mail link:/password/reset/{token} : set new password [Form]
-                    -> action : set new password
-                        -> show : succes (view:password-changed.blade.php)
 
 
 
 
+    // return ApiResponse::error("bad_request", trans("messages.bad_request"), 400);
 
-    // WEB - Register
-    Form Register ->
-        -> Activate Account
-
-
-
-*/
-
-
-
-    public function linkedinAuth(Request $request)
+    public static function error($code, $message, $httpStatusCode, $errors=null, $extraProperties=null)
     {
-
-        $userAccessToken = $request->input('code', '');
-        if(empty($userAccessToken)) {
-            return ApiResponse::error("bad_request", trans("messages.bad_request"), 400);
-        } else {
-
-            // get user data from user token
-            echo Linkedin::getUserProfile($userAccessToken);
-
-            // daca exista userul se updateaza informatiile
-
-            // daca nu exista, se insereaza userul
-
-
-            // se returneaza jwt pt id-ul userului creat/updatat
-
+        $error = ['code' => $code, 'message' => $message];
+        if(!is_null($errors)) {
+            $error['errors'] = $errors;
         }
-
-
-
+        $responseJson = ['error' => $error];
+        if(!is_null($extraProperties)) {
+            $responseJson = array_merge($responseJson, $extraProperties);
+        }
+        return response()->json($responseJson, $httpStatusCode);
     }
+
+
+
+
+
+    /* example:
+    {
+      "error": {
+        "code": "validation_fails",
+        "error": "First validation error - A human readable message providing more details.",
+        "errors": {
+          "validation": {
+            "FIELD": "A human readable message providing more details about this field validation.",
+            "FIELD2": "The FIELD2 field is required.",
+            "password": "The password field is required."
+          }
+        }
+      }
+    }
+    */
+    public static function validationError($validator)
+    {
+        $errorMessages = $validator->errors()->all();
+        $errors = ['validation' => array_combine($validator->errors()->keys(), $errorMessages)];
+        return self::error("validation_fails", $errorMessages[0], 400, $errors);
+    }
+
+
+
+
+
+
+
 
 
 
@@ -102,8 +105,6 @@ class AuthController extends BaseController
 
     public function authenticate(Request $request)
     {
-        // $request->expectsJson = true <=> in header: Accept: application/json
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|max:255',
             'password' => 'required',
@@ -121,9 +122,8 @@ class AuthController extends BaseController
             } else {
                 return redirect(route('login'))
                     ->withInput($request->only('email', 'remember'))
-                    ->withErrors([ 'login_error' => $errorMessages[0], 'validator_errors' => $errorMessages, ]);
+                    ->withErrors($validator->errors());
             }
-
         }
 
         if (!Auth::validate($credentials)) {
@@ -169,7 +169,7 @@ class AuthController extends BaseController
                     return redirect()->intended();
                 }
             }
-        } // END if (!Auth::validate($credentials))
+        }
     }
 
 

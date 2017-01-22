@@ -1,0 +1,54 @@
+<?php
+
+return [
+
+
+    'account_created' => 'Please check your email to activate your account.',
+
+    'invalid_credentials' => 'Please check your username and password and try again',
+    'account_inactive' => 'This account is inactive',
+    'could_not_create_token' => 'Could not create token. Please try again later.',
+
+    'reset_email_sent' => 'Reset email sent, please check your inbox.',
+    'reset_email_not_sent' => 'There was a problem sending your reset email, please try again later.',
+
+
+    'password_changed' => 'Your password has been changed.',
+    'password_could_not_be_changed' => 'Your password could not be changed.',
+
+
+
+    'not_found' => 'Sorry, something went wrong.',
+    'exception' => 'Sorry, something went wrong.',
+    'bad_request' => 'Sorry, something went wrong.',
+    'unauthenticated' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically.', /* redirect to login */
+    'pdo_exception' => 'Sorry, something went wrong.',
+
+
+    'patient_details_updated' => 'Your data was saved.',
+
+
+
+    'token_not_provided' => 'Sorry, something went wrong.',
+    'token_expired' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically', /* redirect to login */
+    'token_invalid' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically', /* redirect to login */
+
+    'invalid_role' => 'Sorry, you are not authorized to make this request.',
+    'invalid_permission' => 'Sorry, you are not authorized to make this request.',
+
+
+    'appointment_done' => 'Your appointment was successfully created.',
+    'appointment_slot_not_empty' => 'Sorry, somebody already make an appointment for this hour.',
+
+    'reactivate_user_not_found' => 'Account not found or already activated.',
+
+
+    'activation_mail_sent_again' => 'Please check your email to activate your account.',
+
+    'email_not_confirmed' => 'Before you can login, you must active your account with the code sent to your email address.',
+
+
+
+
+
+];
