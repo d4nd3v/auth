@@ -1,4 +1,4 @@
-# Laravel 5 Auth Generator
+# Laravel 5 Auth Generator (Web & API)
 
 ## Usage
 
@@ -29,12 +29,28 @@ This will create ```users``` and ```password_resets``` tables.
 
 
 
+### Step x: Create Laravel Notifications
+
+```php artisan make:notification ActivateAccount```
+
+
+
+### Step x: Generate Auth
+
+```php artisan generate:auth```
 
 
 
 
 
-
+Flow:  
+```    
+> Register (/register)  
+    > ActivateAccount Notification   
+        > Activate (/account/activate)    
+            > Resend activation code  
+> Login (/login)  
+```
 
 
 

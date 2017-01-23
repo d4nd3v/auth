@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 
 use App\Libraries\ApiResponse;
-use App\Models\User;
+use App\User;
 use App\Models\Activation;
 
 use App\Http\Requests\RegisterRequest;
@@ -116,7 +116,6 @@ class AuthController extends BaseController
         ];
 
         if ($validator->fails()) {
-            $errorMessages = $validator->errors()->all();
             if ($request->expectsJson()) {
                 return ApiResponse::validationError($validator);
             } else {
@@ -192,7 +191,6 @@ class AuthController extends BaseController
 
     public function register(Request $request)
     {
-        // $request->expectsJson = true <=> in header: Accept: application/json
 
         $validator = Validator::make($request->all(), [
             'email'                 => 'unique:users|required|max:255|email',
