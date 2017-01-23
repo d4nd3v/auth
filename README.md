@@ -20,19 +20,6 @@ public function register()
 }
 ```
 
-### Step 3: Create Tables
-
-```
-php artisan migrate
-```
-This will create ```users``` and ```password_resets``` tables.
-
-
-
-### Step x: Create Laravel Notifications
-
-```php artisan make:notification ActivateAccount```
-
 
 
 ### Step x: Generate Auth
@@ -43,13 +30,43 @@ This will create ```users``` and ```password_resets``` tables.
 
 
 
+### Step 3: Create Tables
+
+```
+php artisan migrate --path=/database/migrations/auth/
+```
+This will create ```users```, ```password_resets``` and ```activations``` tables.
+
+
+
+
+
+
 Flow:  
-```    
+```  
+  
 > Register (/register)  
-    > ActivateAccount Notification   
-        > Activate (/account/activate)    
-            > Resend activation code  
-> Login (/login)  
+    > ActivateAccount Notification (Send Mail)  
+        > Activate (From Mail) (GET /account/activate/token)   
+
+> Forgot password? (GET /password/reset)
+        > PasswordReset Notification (Send Mail)     
+            > Change password form (From Mail) (GET /password/reset/token)
+                > Action change password (/password/reset)
+
+
+
+> Login Form (GET /login)
+    > Login (POST /login)
+        > Form Resend activation code   (GET /account/reactivate/)
+            > Action Resend activation code   (POST /account/reactivate/)
+    > Change Password (GET /password/change)
+        > Set New Password (POST /password/change)
+         
+ 
+> Logout (GET /logout)
+
+            
 ```
 
 

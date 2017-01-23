@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Activation extends Model
+{
+    use SoftDeletes;
+
+    protected $table = "activations";
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'token',
+        'completed'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
+    /**
+     * Get the activation record associated with the user.
+     */
+    public function user()
+    {
+        $this->belongsTo('App\Models\User');
+    }
+
+    /**
+     * Register any other events for your application.
+     *
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($entry) {
+            if ($entry->completed) {
+                $entry->completed_at = date('Y-m-d H:i:s');
+            }
+        });
+    }
+}

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 
 use App\Libraries\ApiResponse;
-use App\User;
+use App\Models\User;
 use App\Models\Activation;
 
 use App\Http\Requests\RegisterRequest;
@@ -143,7 +143,7 @@ class AuthController extends BaseController
                         ->withInput($request->only('email', 'remember'))
                         ->withErrors([ 'account_disabled' => trans('messages.account_disabled') ]);
                 }
-            } else if (empty($user->activated_at)) {
+            } else if (!($user->active)) {
                 if ($request->expectsJson()) {
                     return ApiResponse::error("email_not_confirmed", trans('messages.email_not_confirmed'), 401);
                 } else {
@@ -213,9 +213,16 @@ class AuthController extends BaseController
 
         $newUser = $request->except('password');
         $newUser['password'] = bcrypt($request->input('password'));
-        $activationToken = str_random(60);
-        $newUser['activation_token'] =$activationToken;
         $user = User::create(array_filter($newUser));
+
+
+        $activationToken = str_random(60);
+        Activation::create([
+            'user_id' => $user->id,
+            'token'   => $activationToken
+        ]);
+
+
 
         $user->notify(new \App\Notifications\ActivateAccount($activationToken));
 
@@ -236,12 +243,22 @@ class AuthController extends BaseController
 
     public function activate(Request $request, $token)
     {
-        $user = User::where('activation_token', $token)->first();
-        if (! $user) {
-            abort(500);
+        $activation = Activation::where('token', $token)
+            ->where('completed', false)
+            ->first();
+
+        if (! $activation) {
+            abort(404);
         }
-        $user->activated_at = Carbon::now();
+
+        $activation->completed = true;
+        $activation->completed_at = Carbon::now();
+        $activation->save();
+
+        $user = User::find($activation->user_id);
+        $user->active = 1;
         $user->save();
+
         return view('auth.activated');
     }
 
@@ -319,7 +336,6 @@ class AuthController extends BaseController
                         'login_error' => $errorMessages[0],
                         'validator_errors' => $errorMessages,
                     ]);
-
             }
         }
 
@@ -386,10 +402,10 @@ class AuthController extends BaseController
 
 
 
-        $user = User::where(['email'=>$request->email, 'activated_at'=>null])->first();
+        $user = User::where(['email'=>$request->email, 'active'=>0])->first();
         if($user) {
 
-            $user->notify(new \App\Notifications\ActivateAccount($user->activation_token));
+            $user->notify(new \App\Notifications\ActivateAccount($user->activation->token));
 
             if ($request->expectsJson()) {
                 return response()->json(['data' => ['message' => trans('messages.account_created')]], 200);

@@ -50,6 +50,11 @@ class AuthCommand extends Command
         }
         $this->createController();
         $this->createViews();
+        $this->createNotifications();
+        $this->createMigrations();
+        $this->createModels();
+
+
         $this->info("Done.");
 
     }
@@ -74,33 +79,74 @@ class AuthCommand extends Command
     }
 
 
+
+    private function createFileFromTemplate($source, $destination)
+    {
+        if(!\File::exists($destination) || $this->overwriteExistingFiles) {
+            \File::put($destination, \File::get($source));
+        } else {
+            $this->warn('File: ' . $destination. ' already exist.');
+        }
+    }
+
+
+
     public function createViews()
     {
-        $viewsPath = resource_path('views') .'/auth';
-        if(!\File::exists($viewsPath)) {
-            \File::makeDirectory($viewsPath, 0755, true);
+        $destionationFolder = resource_path('views') .'/auth';
+        if(!\File::exists($destionationFolder)) {
+            \File::makeDirectory($destionationFolder, 0755, true);
         }
-        $this->createViewFileFromTemplate('login_blade.txt', 'login.blade.php');
-        $this->createViewFileFromTemplate('register_blade.txt', 'register.blade.php');
-        $this->createViewFileFromTemplate('activate_blade.txt', 'activate.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'login.blade.php.txt', $destionationFolder . '/login.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'register.blade.php.txt', $destionationFolder . '/register.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'activate.blade.php.txt', $destionationFolder . '/activate.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'reactivate.blade.php.txt', $destionationFolder . '/reactivate.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'activated.blade.php.txt', $destionationFolder . '/activated.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'email.blade.php.txt', $destionationFolder . '/email.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'reset.blade.php.txt', $destionationFolder . '/reset.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'changed.blade.php.txt', $destionationFolder . '/changed.blade.php');
+        $this->createFileFromTemplate($this->templatePath . 'views/' . 'change.blade.php.txt', $destionationFolder . '/change.blade.php');
+
     }
 
 
-    private function createViewFileFromTemplate($source, $destination)
+    private function createNotifications()
     {
-        $createViewTemplate = \File::get(($this->templatePath . 'views/'.$source));
-        $viewCreatePath = resource_path('views') .'/auth/'.$destination;
-        if(!\File::exists($viewCreatePath) || $this->overwriteExistingFiles) {
-            \File::put($viewCreatePath, $createViewTemplate);
+        $destionationFolder = app_path('Notifications');
+        if(!\File::exists($destionationFolder)) {
+            \File::makeDirectory($destionationFolder, 0755, true);
         }
+        $this->createFileFromTemplate($this->templatePath . 'notifications/' . 'ActivateAccount.php.txt', $destionationFolder . '/ActivateAccount.php');
+        $this->createFileFromTemplate($this->templatePath . 'notifications/' . 'PasswordReset.php.txt', $destionationFolder . '/PasswordReset.php');
+
+    }
+
+    private function createMigrations()
+    {
+        $destionationFolder = database_path('migrations/auth/');
+        if(!\File::exists($destionationFolder)) {
+            \File::makeDirectory($destionationFolder, 0755, true);
+        }
+        $this->createFileFromTemplate($this->templatePath . 'migrations/' . '2017_01_23_100000_create_activations_table.php.txt'
+            , $destionationFolder . '/2017_01_23_100000_create_activations_table.php');
+        $this->createFileFromTemplate($this->templatePath . 'migrations/' . '2017_01_23_000000_create_users_table.php.txt'
+            , $destionationFolder . '/2017_01_23_000000_create_users_table.php');
+        $this->createFileFromTemplate($this->templatePath . 'migrations/' . '2017_01_23_100000_create_password_resets_table.php.txt'
+            , $destionationFolder . '/2017_01_23_100000_create_password_resets_table.php');
     }
 
 
 
 
-
-
-
+    private function createModels()
+    {
+        $destionationFolder = app_path('Models');
+        if(!\File::exists($destionationFolder)) {
+            \File::makeDirectory($destionationFolder, 0755, true);
+        }
+        $this->createFileFromTemplate($this->templatePath . 'models/' . 'Activation.php.txt', $destionationFolder . '/Activation.php');
+        $this->createFileFromTemplate($this->templatePath . 'models/' . 'User.php.txt', $destionationFolder . '/User.php');
+    }
 
 
 
