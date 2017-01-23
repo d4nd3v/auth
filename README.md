@@ -41,6 +41,11 @@ This will create ```users```, ```password_resets``` and ```activations``` tables
 
 
 
+### Step x: If you user API Auth:
+https://github.com/tymondesigns/jwt-auth/wiki/Installation  
+In header must be set: Accept: application/json  
+
+
 
 Flow:  
 ```  

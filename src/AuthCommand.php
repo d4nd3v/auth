@@ -65,17 +65,9 @@ class AuthCommand extends Command
 
     public function createController()
     {
-        $controllerPath = app_path('Http/Controllers').'/AuthController.php';
-        if(\File::exists($controllerPath) && !$this->overwriteExistingFiles) {
-            $this->warn('Controller '.$controllerPath.' already exists, it is not overwritten.');
-        } else {
-            $controllerTemplate = \File::get(($this->templatePath . 'AuthController.php'));
-            $bytesWritten = \File::put($controllerPath, $controllerTemplate);
-            if ($bytesWritten === false)
-            {
-                $this->error('Error writing to file'.$controllerPath);
-            }
-        }
+        $destionationFolder = app_path('Http/Controllers');
+        $this->createFileFromTemplate($this->templatePath . 'controllers/AuthController.php'
+            , $destionationFolder . '/AuthController.php');
     }
 
 
