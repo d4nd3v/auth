@@ -47,7 +47,43 @@ In header must be set: Accept: application/json
 
 
 
-Flow:  
+
+
+
+### Step x: Add Web routes:
+
+```
+    Route::get('register', 'AuthController@showRegisterForm')->name('registerForm');
+    Route::post('register', 'AuthController@register')->name('register');
+
+    Route::get('account/activate/', 'AuthController@showActivateMessage')->name('activate');
+    Route::get('account/activate/{token}', 'AuthController@activate');
+
+    Route::get('account/reactivate/', 'AuthController@showResendActivationCode')->name('reactivateForm');
+    Route::post('account/reactivate/', 'AuthController@resendActivationCode')->name('reactivate');
+
+    Route::get('login', 'AuthController@showLoginForm')->name('loginForm');
+    Route::post('login', 'AuthController@authenticate')->name('login');
+
+    Route::get('logout', 'AuthController@logout')->name('logout');
+
+    Route::get('password/reset', 'AuthController@showLinkRequestForm');
+    Route::post('password/email', 'AuthController@sendEmailWithResetPasswordLink');
+    Route::get('password/reset/{token}', 'AuthController@showResetForm')->name('showResetForm');
+    Route::post('password/reset', 'AuthController@resetPassword');
+
+    Route::get('password/change', 'AuthController@showChangePasswordForm')->name('changePassword');
+    Route::post('password/change', 'AuthController@changePassword');
+```
+
+
+
+
+
+
+
+
+## Flow:  
 ```  
   
 > Register (/register)  
@@ -73,10 +109,6 @@ Flow:
 
             
 ```
-
-
-
-
 
 
 
