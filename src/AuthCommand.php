@@ -53,6 +53,7 @@ class AuthCommand extends Command
         $this->createNotifications();
         $this->createMigrations();
         $this->createModels();
+        $this->createLang();
 
 
         $this->info("Done.");
@@ -85,7 +86,7 @@ class AuthCommand extends Command
 
     public function createViews()
     {
-        $destionationFolder = resource_path('views') .'/auth';
+        $destionationFolder = resource_path('views/auth');
         if(!\File::exists($destionationFolder)) {
             \File::makeDirectory($destionationFolder, 0755, true);
         }
@@ -140,6 +141,16 @@ class AuthCommand extends Command
         $this->createFileFromTemplate($this->templatePath . 'models/' . 'User.php.txt', $destionationFolder . '/User.php');
     }
 
+
+
+    private function createLang()
+    {
+        $destionationFolder = resource_path('lang/en');
+        if(!\File::exists($destionationFolder)) {
+            \File::makeDirectory($destionationFolder, 0755, true);
+        }
+        $this->createFileFromTemplate($this->templatePath . 'lang/' . 'auth-d4nd3v.php.txt', $destionationFolder . '/auth-d4nd3v.php');
+    }
 
 
 }

@@ -127,41 +127,41 @@ class AuthController extends BaseController
 
         if (!Auth::validate($credentials)) {
             if ($request->expectsJson()) {
-                return ApiResponse::error("invalid_credentials", trans('messages.invalid_credentials'), 401);
+                return ApiResponse::error("invalid_credentials", trans('auth-d4nd3v.invalid_credentials'), 401);
             } else {
                 return redirect(route('login'))
                     ->withInput($request->only('email', 'remember'))
-                    ->withErrors([ 'invalid_credentials' => trans('messages.invalid_credentials') ]);
+                    ->withErrors([ 'invalid_credentials' => trans('auth-d4nd3v.invalid_credentials') ]);
             }
         } else {
             $user = Auth::getLastAttempted();
             if ($user->account_disabled) {
                 if ($request->expectsJson()) {
-                    return ApiResponse::error("account_disabled", trans('messages.account_disabled'), 401);
+                    return ApiResponse::error("account_disabled", trans('auth-d4nd3v.account_disabled'), 401);
                 } else {
                     return redirect(route('login'))
                         ->withInput($request->only('email', 'remember'))
-                        ->withErrors([ 'account_disabled' => trans('messages.account_disabled') ]);
+                        ->withErrors([ 'account_disabled' => trans('auth-d4nd3v.account_disabled') ]);
                 }
             } else if (!($user->active)) {
                 if ($request->expectsJson()) {
-                    return ApiResponse::error("email_not_confirmed", trans('messages.email_not_confirmed'), 401);
+                    return ApiResponse::error("email_not_confirmed", trans('auth-d4nd3v.email_not_confirmed'), 401);
                 } else {
                     return redirect(route('login'))
                         ->withInput($request->only('email', 'remember'))
-                        ->withErrors([ 'email_not_confirmed' => trans('messages.email_not_confirmed') ]);
+                        ->withErrors([ 'email_not_confirmed' => trans('auth-d4nd3v.email_not_confirmed') ]);
                 }
             } else {
                 // succes
                 if ($request->expectsJson()) {
                      try {
                         if (! $token = \JWTAuth::attempt($credentials)) {
-                            return ApiResponse::error("invalid_credentials", trans('messages.invalid_credentials'), 401);
+                            return ApiResponse::error("invalid_credentials", trans('auth-d4nd3v.invalid_credentials'), 401);
                         } else {
                             return response()->json([ 'data' => ['token'=>$token] ], 200);
                         }
                      } catch (JWTException $e) {
-                         return ApiResponse::error("could_not_create_token", trans('messages.could_not_create_token'), 500);
+                         return ApiResponse::error("could_not_create_token", trans('auth-d4nd3v.could_not_create_token'), 500);
                      }
                 } else {
                     Auth::login($user, $request->has('remember'));
@@ -227,7 +227,7 @@ class AuthController extends BaseController
         $user->notify(new \App\Notifications\ActivateAccount($activationToken));
 
         if ($request->expectsJson()) {
-            return response()->json(['data' => ['message' => trans('messages.activation_mail_sent_again')]], 200);
+            return response()->json(['data' => ['message' => trans('auth-d4nd3v.activation_mail_sent_again')]], 200);
         } else {
             return redirect(route('activate'));
         }
@@ -292,17 +292,17 @@ class AuthController extends BaseController
             if ($request->expectsJson()) {
                 return response()->json([
                     'data' => [
-                        'message' => trans('messages.reset_email_sent')
+                        'message' => trans('auth-d4nd3v.reset_email_sent')
                     ]], 200);
             } else {
-                return back()->with('status', trans('messages.reset_email_sent'));
+                return back()->with('status', trans('auth-d4nd3v.reset_email_sent'));
             }
         }
 
         if ($request->expectsJson()) {
-            return ApiResponse::error("reset_email_not_sent", trans('messages.reset_email_not_sent'), 400);
+            return ApiResponse::error("reset_email_not_sent", trans('auth-d4nd3v.reset_email_not_sent'), 400);
         } else {
-            return back()->withErrors(['email' => trans('messages.reset_email_not_sent')]);
+            return back()->withErrors(['email' => trans('auth-d4nd3v.reset_email_not_sent')]);
         }
     }
 
@@ -356,18 +356,18 @@ class AuthController extends BaseController
                 if ($request->expectsJson()) {
                     return response()->json(['data' => [
                         'code' => 'password_changed',
-                        'message' => trans('messages.password_changed')
+                        'message' => trans('auth-d4nd3v.password_changed')
                     ]], 200);
                 } else {
                     return view('auth.changed');
                 }
             default:
                 if ($request->expectsJson()) {
-                    return ApiResponse::error("password_could_not_be_changed", trans('messages.password_could_not_be_changed'), 400);
+                    return ApiResponse::error("password_could_not_be_changed", trans('auth-d4nd3v.password_could_not_be_changed'), 400);
                 } else {
                     return redirect(route('showResetForm', [$request->input('token')]))
                         ->withInput($request->except('password', 'confirm_password'))
-                        ->withErrors(['password_could_not_be_changed' => trans('messages.password_could_not_be_changed')]);
+                        ->withErrors(['password_could_not_be_changed' => trans('auth-d4nd3v.password_could_not_be_changed')]);
                 }
         }
 
@@ -408,7 +408,7 @@ class AuthController extends BaseController
             $user->notify(new \App\Notifications\ActivateAccount($user->activation->token));
 
             if ($request->expectsJson()) {
-                return response()->json(['data' => ['message' => trans('messages.account_created')]], 200);
+                return response()->json(['data' => ['message' => trans('auth-d4nd3v.account_created')]], 200);
             } else {
                 return redirect(route('activate'));
             }
@@ -416,9 +416,9 @@ class AuthController extends BaseController
 
         } else {
             if ($request->expectsJson()) {
-                return ApiResponse::error("reactivate_user_not_found", trans('messages.reactivate_user_not_found'), 400);
+                return ApiResponse::error("reactivate_user_not_found", trans('auth-d4nd3v.reactivate_user_not_found'), 400);
             } else {
-                return redirect(route('reactivate'))->withErrors(['reactivate_error' => trans('messages.reactivate_user_not_found')]);
+                return redirect(route('reactivate'))->withErrors(['reactivate_error' => trans('auth-d4nd3v.reactivate_user_not_found')]);
             }
         }
 
@@ -464,10 +464,10 @@ class AuthController extends BaseController
 
         if (!Auth::validate($credentials)) {
             if ($request->expectsJson()) {
-                return ApiResponse::error("password_could_not_be_changed", trans('messages.password_could_not_be_changed'), 400);
+                return ApiResponse::error("password_could_not_be_changed", trans('auth-d4nd3v.password_could_not_be_changed'), 400);
             } else {
                 return redirect(route('showChangePasswordForm'))
-                    ->withErrors(['password_could_not_be_changed' => trans('messages.password_could_not_be_changed')]);
+                    ->withErrors(['password_could_not_be_changed' => trans('auth-d4nd3v.password_could_not_be_changed')]);
             }
         } else {
 
@@ -477,7 +477,7 @@ class AuthController extends BaseController
             if ($request->expectsJson()) {
                 return response()->json(['data' => [
                     'code' => 'password_changed',
-                    'message' => trans('messages.password_changed')
+                    'message' => trans('auth-d4nd3v.password_changed')
                 ]], 200);
             } else {
                 return view('auth.changed');
