@@ -72,7 +72,7 @@
 
 
         Test users:
-        <a href="javasript:;" onclick="$('#email').val('super@x.x'); $('#password').val('xxxxxx');">super@x.x</a>
+        <a href="javascript:;" onclick="$('#email').val('super@x.x'); $('#password').val('xxxxxx');">super@x.x</a>
 
 
 
