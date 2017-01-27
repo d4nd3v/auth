@@ -45,8 +45,8 @@ This will create ```users```, ```password_resets``` and ```activations``` tables
 https://github.com/tymondesigns/jwt-auth/wiki/Installation  
 In header must be set: Accept: application/json  
 
-
-
+### Step x:
+Go to ```config/auth.php``` and change ```App\User:class``` to ```App\Models\User::class```.
 
 
 
