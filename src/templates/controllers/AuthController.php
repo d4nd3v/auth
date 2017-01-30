@@ -94,14 +94,29 @@ class AuthController extends BaseController
                         if (! $token = \JWTAuth::attempt($credentials)) {
                             return ApiResponse::error("invalid_credentials");
                         } else {
+
+                            // succes API
+                            $user->last_login = Carbon::now();
+                            $user->save();
+
                             return response()->json([ 'data' => ['token'=>$token] ], 200);
                         }
                      } catch (JWTException $e) {
                          return ApiResponse::error("could_not_create_token");
                      }
                 } else {
+
                     Auth::login($user, $request->has('remember'));
-                    return redirect()->intended();
+
+                    // succes WEB
+                    $user->last_login = Carbon::now();
+                    $user->save();
+
+                    // redirect admin users in admin section
+                    $defaultRedirect = ($user->hasAnyRole('admin', 'superadmin')) ? "/admin" : null;
+
+
+                    return redirect()->intended($defaultRedirect);
                 }
             }
         }

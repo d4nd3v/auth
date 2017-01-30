@@ -72,8 +72,10 @@ Go to ```config/auth.php``` and change ```App\User:class``` to ```App\Models\Use
     Route::get('password/reset/{token}', 'AuthController@showResetForm')->name('showResetForm');
     Route::post('password/reset', 'AuthController@resetPassword');
 
-    Route::get('password/change', 'AuthController@showChangePasswordForm')->name('changePassword');
-    Route::post('password/change', 'AuthController@changePassword');
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('password/change', 'AuthController@showChangePasswordForm')->name('showChangePasswordForm');
+        Route::post('password/change', 'AuthController@changePassword')->name('changePassword');
+    });
 ```
 
 

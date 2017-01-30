@@ -5,7 +5,7 @@
 @section('content')
 
     <p>
-        Before you can login, you must active your account with the code sent to your email address.
+        Before login, you must activete your account with the code sent to your email address.
         <br>
         Please check your email and click the link.
 
