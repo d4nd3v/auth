@@ -2,47 +2,52 @@
 
 @section('content')
 
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-md-offset-4">
 
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              {{$errors->first()}}
-            </div>
-        @endif
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  {{$errors->first()}}
+                </div>
+            @endif
 
-        @if (session('status'))
+            @if (session('status'))
 
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{ session('status') }}
-            </div>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ session('status') }}
+                </div>
 
-            <a href="{{ route('login') }}">Proceed with the login process</a>
+                <a href="{{ route('login') }}">Proceed with the login process</a>
 
-        @else
+            @else
 
 
-            <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-                {{ csrf_field() }}
+                <form role="form" method="POST" action="{{ url('/password/email') }}">
+                    {{ csrf_field() }}
 
-                <div class="form-group">
-                    <div>
-                        <input placeholder="Email address" id="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                    <div class="form-group">
+                        <div>
+                            <input placeholder="Email address" id="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">
-                        Send password reset link
-                    </button>
-                </div>
-            </form>
-
-
-            <a href="{{ route('login') }}">Back to login</a>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Send password reset link
+                        </button>
+                    </div>
+                </form>
 
 
-        @endif
+                <a href="{{ route('login') }}">Back to login</a>
+
+
+            @endif
+
+        </div>
+    </div>
 
 
 @stop
