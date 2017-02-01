@@ -113,8 +113,10 @@ class AuthController extends BaseController
                     $user->save();
 
                     // redirect admin users in admin section
-                    $defaultRedirect = ($user->hasAnyRole('admin', 'superadmin')) ? "/admin" : null;
-
+					$defaultRedirect = null;
+					// if($user->hasAnyRole('admin', 'superadmin')) {
+					// 	$defaultRedirect = "/admin";
+					// }
 
                     return redirect()->intended($defaultRedirect);
                 }
