@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 
-
 class AuthController extends BaseController
 {
     use ValidatesRequests;
@@ -47,7 +46,7 @@ class AuthController extends BaseController
 
         if ($validator->fails()) {
             if (request()->expectsJson()) {
-                return ApiResponse::error("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
+                throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 return redirect(route('login'))
                     ->withInput(request()->only('email', 'remember'))
@@ -70,7 +69,7 @@ class AuthController extends BaseController
                     {
                         // trow new Exception to wait a while
                         if (request()->expectsJson()) {
-                            return ApiResponse::error("auth-d4nd3v.throttle", null, trans('auth-d4nd3v.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]));
+                            throw new ApiException("throttle", null, trans('auth-d4nd3v.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]));
                         } else {
                             return redirect(route('login'))
                                 ->withInput(request()->only('email', 'remember'))
@@ -94,7 +93,7 @@ class AuthController extends BaseController
 
         if (!Auth::validate($credentials)) {
             if (request()->expectsJson()) {
-                return ApiResponse::error("invalid_credentials");
+                throw new ApiException("invalid_credentials");
             } else {
                 return redirect(route('login'))
                     ->withInput(request()->only('email', 'remember'))
@@ -104,7 +103,7 @@ class AuthController extends BaseController
             $user = Auth::getLastAttempted();
             if ($user->account_disabled) {
                 if (request()->expectsJson()) {
-                    return ApiResponse::error("account_disabled");
+                    throw new ApiException("account_disabled");
                 } else {
                     return redirect(route('login'))
                         ->withInput(request()->only('email', 'remember'))
@@ -112,7 +111,7 @@ class AuthController extends BaseController
                 }
             } else if (!($user->active)) {
                 if (request()->expectsJson()) {
-                    return ApiResponse::error("email_not_confirmed");
+                    throw new ApiException("email_not_confirmed");
                 } else {
                     return redirect(route('login'))
                         ->withInput(request()->only('email', 'remember'))
@@ -123,7 +122,7 @@ class AuthController extends BaseController
                 if (request()->expectsJson()) {
                      try {
                         if (! $token = \JWTAuth::attempt($credentials)) {
-                            return ApiResponse::error("invalid_credentials");
+                            throw new ApiException("invalid_credentials");
                         } else {
 
                             // succes API
@@ -133,7 +132,7 @@ class AuthController extends BaseController
                             return response()->json([ 'data' => ['token'=>$token] ], 200);
                         }
                      } catch (JWTException $e) {
-                         return ApiResponse::error("could_not_create_token");
+                         throw new ApiException("could_not_create_token");
                      }
                 } else {
 
@@ -186,7 +185,7 @@ class AuthController extends BaseController
         if ($validator->fails()) {
             $errorMessages = $validator->errors()->all();
             if (request()->expectsJson()) {
-                return ApiResponse::error("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
+                throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 return redirect(route('register'))
                     ->withInput(request()->except('password', 'password_confirmation'))
@@ -263,7 +262,7 @@ class AuthController extends BaseController
         if ($validator->fails()) {
             $errorMessages = $validator->errors()->all();
             if (request()->expectsJson()) {
-                return ApiResponse::error("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
+                throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 return back()->withInput(request()->all())->withErrors([ 'login_error' => $errorMessages[0], 'validator_errors' => $errorMessages, ]);
             }
@@ -284,7 +283,7 @@ class AuthController extends BaseController
         }
 
         if (request()->expectsJson()) {
-            return ApiResponse::error("reset_email_not_sent");
+            throw new ApiException("reset_email_not_sent");
         } else {
             return back()->withErrors(['email' => trans('auth-d4nd3v.reset_email_not_sent')]);
         }
@@ -311,7 +310,7 @@ class AuthController extends BaseController
 
         if ($validator->fails()) {
             if (request()->expectsJson()) {
-                return ApiResponse::error("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
+                throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 $errorMessages = $validator->errors()->all();
                 return redirect(route('showResetForm', [request()->input('token')]))
@@ -347,7 +346,7 @@ class AuthController extends BaseController
                 }
             default:
                 if (request()->expectsJson()) {
-                    return ApiResponse::error("password_could_not_be_changed");
+                    throw new ApiException("password_could_not_be_changed");
                 } else {
                     return redirect(route('showResetForm', [request()->input('token')]))
                         ->withInput(request()->except('password', 'confirm_password'))
@@ -378,7 +377,7 @@ class AuthController extends BaseController
         if ($validator->fails()) {
             $errorMessages = $validator->errors()->all();
             if (request()->expectsJson()) {
-                return ApiResponse::error("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
+                throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 return redirect(route('reactivate'))->withErrors(['reactivate_error' => $errorMessages[0], 'validator_errors' => $errorMessages,]);
             }
@@ -400,7 +399,7 @@ class AuthController extends BaseController
 
         } else {
             if (request()->expectsJson()) {
-                return ApiResponse::error("reactivate_user_not_found");
+                throw new ApiException("reactivate_user_not_found");
             } else {
                 return redirect(route('reactivate'))->withErrors(['reactivate_error' => trans('auth-d4nd3v.reactivate_user_not_found')]);
             }
@@ -428,7 +427,7 @@ class AuthController extends BaseController
         if ($validator->fails()) {
             $errorMessages = $validator->errors()->all();
             if (request()->expectsJson()) {
-                return ApiResponse::error("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
+                throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 return redirect(route('showChangePasswordForm'))->withErrors(['reactivate_error' => $errorMessages[0], 'validator_errors' => $errorMessages,]);
             }
@@ -448,7 +447,7 @@ class AuthController extends BaseController
 
         if (!Auth::validate($credentials)) {
             if (request()->expectsJson()) {
-                return ApiResponse::error("password_could_not_be_changed");
+                throw new ApiException("password_could_not_be_changed");
             } else {
                 return redirect(route('showChangePasswordForm'))
                     ->withErrors(['password_could_not_be_changed' => trans('auth-d4nd3v.password_could_not_be_changed')]);
@@ -501,5 +500,4 @@ class AuthController extends BaseController
 
 
 }
-
 

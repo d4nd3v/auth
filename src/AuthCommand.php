@@ -54,6 +54,7 @@ class AuthCommand extends Command
         $this->createMigrations();
         $this->createModels();
         $this->createLang();
+        $this->createExceptions();
 
 
         $this->info("Done.");
@@ -149,7 +150,14 @@ class AuthCommand extends Command
         if(!\File::exists($destionationFolder)) {
             \File::makeDirectory($destionationFolder, 0755, true);
         }
-        $this->createFileFromTemplate($this->templatePath . 'lang/' . 'auth-d4nd3v.php.txt', $destionationFolder . '/auth-d4nd3v.php');
+        $this->createFileFromTemplate($this->templatePath . 'lang/' . 'auth2.php.txt', $destionationFolder . '/auth2.php');
+    }
+
+
+    private function createExceptions()
+    {
+        $destionationFolder = app_path('Exceptions');
+        $this->createFileFromTemplate($this->templatePath . 'exceptions/APIException.php', $destionationFolder . '/APIException.php');
     }
 
 

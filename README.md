@@ -106,6 +106,23 @@ API route
 
 
 
+### API Exceptions
+In `\app\Exceptions\Handler.php`
+```
+.....
+public function render($request, Exception $exception)
+{
+    if ($exception instanceof APIException) {
+        return $exception->apiExceptionResponse;
+    }
+.....
+protected function unauthenticated($request, AuthenticationException $exception)
+{
+    if ($request->expectsJson()) {
+        throw new ApiException("unauthenticated");
+    }
+.....
+```
 
 
 ## Flow:  
