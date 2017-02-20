@@ -43,7 +43,7 @@ This will create ```users```, ```password_resets``` and ```activations``` tables
 
 
 
-### If you user API Auth:
+### If you use API Auth:
 https://github.com/tymondesigns/jwt-auth/wiki/Installation  
 In header must be set: Accept: application/json  
 
@@ -54,20 +54,26 @@ Go to ```config/auth.php``` and change ```App\User:class``` to ```App\Models\Use
 
 ### Routes
 
+For `'middleware' => 'guest'`, in `\app\Http\Middleware\RedirectIfAuthenticated.php` set `return redirect(route('home'));`
+
 Web routes
 
 ```
-    Route::get('register', 'AuthController@showRegisterForm')->name('registerForm');
-    Route::post('register', 'AuthController@register')->name('register');
+    Route::group(['middleware' => 'guest'], function () {
+
+        Route::get('register', 'AuthController@showRegisterForm')->name('registerForm');
+        Route::post('register', 'AuthController@register')->name('register');
+
+        Route::get('login', 'AuthController@showLoginForm')->name('loginForm');
+        Route::post('login', 'AuthController@authenticate')->name('login');
+
+    });
 
     Route::get('account/activate/', 'AuthController@showActivateMessage')->name('activate');
     Route::get('account/activate/{token}', 'AuthController@activate');
 
     Route::get('account/reactivate/', 'AuthController@showResendActivationCode')->name('reactivateForm');
     Route::post('account/reactivate/', 'AuthController@resendActivationCode')->name('reactivate');
-
-    Route::get('login', 'AuthController@showLoginForm')->name('loginForm');
-    Route::post('login', 'AuthController@authenticate')->name('login');
 
     Route::get('logout', 'AuthController@logout')->name('logout');
 
