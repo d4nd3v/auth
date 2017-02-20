@@ -48,7 +48,7 @@ return [
     'email_not_confirmed' => 'Before you can login, you must active your account with the code sent to your email address.',
 
 
-
+	'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 
 ];

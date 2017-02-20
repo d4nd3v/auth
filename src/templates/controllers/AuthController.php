@@ -23,6 +23,9 @@ class AuthController extends BaseController
 {
     use ValidatesRequests;
 
+    protected $maxLoginAttempts = 10; // Amount of bad attempts user can make
+    protected $lockoutTime = 300; // Time for which user is going to be blocked in seconds
+
 
     public function showLoginForm()
     {
@@ -51,6 +54,43 @@ class AuthController extends BaseController
                     ->withErrors($validator->errors());
             }
         }
+
+
+        // Preventing Brute-Force Attacks
+        if($this->maxLoginAttempts > 0) {
+
+            if ( ! $user = User::where(['email' => $credentials['email']])->first()) {
+                //throw new Exception user not found
+            } else {
+                // check and log user login fail attempt
+                if ($user->login_attempts + 1 > $this->maxLoginAttempts)
+                {
+                    $secondsFromLastFail =  Carbon::now()->diffInSeconds(Carbon::parse($user->last_login_attempt));
+                    if ($secondsFromLastFail < $this->lockoutTime)
+                    {
+                        // trow new Exception to wait a while
+                        if (request()->expectsJson()) {
+                            return ApiResponse::error("auth-d4nd3v.throttle", null, trans('auth-d4nd3v.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]));
+                        } else {
+                            return redirect(route('login'))
+                                ->withInput(request()->only('email', 'remember'))
+                                ->withErrors([ 'throttle' => trans('auth-d4nd3v.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]) ]);
+                        }
+                    }
+                }
+                if ( ! Auth::attempt($credentials))
+                {
+                    $user->login_attempts++;
+                    $user->last_login_attempt = Carbon::now();
+                } else {
+                    // corect credentials
+                    $user->login_attempts = 0;
+                }
+                $user->save();
+            }
+        }
+
+
 
         if (!Auth::validate($credentials)) {
             if (request()->expectsJson()) {
