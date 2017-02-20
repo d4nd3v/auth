@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
+use App\Exceptions\ApiException;
 
 class AuthController extends BaseController
 {
