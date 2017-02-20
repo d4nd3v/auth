@@ -2,13 +2,13 @@
 
 ## Usage
 
-### Step 1: Install Through Composer
+### Install Through Composer
 
 ```
 composer require d4nd3v/auth:dev-master
 ```
 
-### Step 2: Add the Service Provider
+### Add the Service Provider
 
 Add the provider in `app/Providers/AppServiceProvider.php`
 
@@ -24,7 +24,7 @@ public function register()
 
 
 
-### Step x: Generate Auth
+### Generate Auth
 
 ```php artisan generate:auth```
 
@@ -32,7 +32,7 @@ public function register()
 
 
 
-### Step 3: Create Tables
+### Create Tables
 
 ```
 php artisan migrate --path=/database/migrations/auth/
@@ -43,16 +43,18 @@ This will create ```users```, ```password_resets``` and ```activations``` tables
 
 
 
-### Step x: If you user API Auth:
+### If you user API Auth:
 https://github.com/tymondesigns/jwt-auth/wiki/Installation  
 In header must be set: Accept: application/json  
 
-### Step x:
+### Set the Model:
 Go to ```config/auth.php``` and change ```App\User:class``` to ```App\Models\User::class```.
 
 
 
-### Step x: Add Web routes:
+### Routes
+
+Web routes
 
 ```
     Route::get('register', 'AuthController@showRegisterForm')->name('registerForm');
@@ -80,8 +82,21 @@ Go to ```config/auth.php``` and change ```App\User:class``` to ```App\Models\Use
     });
 ```
 
+API route
 
 
+```
+    Route::post('login', 'AuthController@authenticate');
+    Route::get('logout', 'AuthController@logout');
+    Route::post('register', 'AuthController@register');
+    Route::post('password/forgot', 'AuthController@sendEmailWithResetPasswordLink');
+    Route::post('password/reset', 'AuthController@resetPassword');
+    Route::post('activate/send', 'AuthController@resendActivationCode');
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::post('password/change', 'AuthController@changePassword');
+    });
+
+```
 
 
 
