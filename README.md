@@ -79,7 +79,7 @@ Web routes
 
     Route::get('password/reset', 'AuthController@showLinkRequestForm');
     Route::post('password/email', 'AuthController@sendEmailWithResetPasswordLink');
-    Route::get('password/reset/{token}', 'AuthController@showResetForm')->name('showResetForm');
+    Route::get('password/reset/{token}', 'AuthController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'AuthController@resetPassword');
 
     Route::group(['middleware' => 'auth'], function () {
