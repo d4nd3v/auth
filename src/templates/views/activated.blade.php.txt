@@ -1,20 +1,26 @@
 @extends('layouts.master')
 
 
+@section('title')
+
+    {{ trans('authdd.email_confirmation_title') }}
+
+@stop
+
 @section('content')
 
 
 
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-md-offset-4">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-md-offset-3">
 
 
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                Your account has been activated.
+                {{ trans('authdd.email_confirmed') }}
             </div>
 
-            <a href="{{ route('login') }}">Proceed with the login process</a>
+            <a href="{{ route('login') }}">{{ trans('authdd.go_to_login') }}</a>
 
 
         </div>

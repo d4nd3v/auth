@@ -1,14 +1,21 @@
 @extends('layouts.master')
 
+@section('title')
+
+    {{ trans('authdd.reset_email_title') }}
+
+@stop
+
+
 @section('content')
 
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-md-offset-4">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-md-offset-3">
 
             @if($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  {{$errors->first()}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{$errors->first()}}
                 </div>
             @endif
 
@@ -19,7 +26,6 @@
                     {{ session('status') }}
                 </div>
 
-                <a href="{{ route('login') }}">Proceed with the login process</a>
 
             @else
 
@@ -29,22 +35,26 @@
 
                     <div class="form-group">
                         <div>
-                            <input placeholder="Email address" id="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                            Email
+                            <input placeholder="Email" id="email" class="form-control" name="email" value="{{ old('email') }}" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">
-                            Send password reset link
+                            {{ trans('authdd.send_reset_email') }}
                         </button>
                     </div>
                 </form>
 
-
-                <a href="{{ route('login') }}">Back to login</a>
-
-
             @endif
+
+
+            <a href="{{ route('login') }}">{{ trans('authdd.back_to_login') }}</a>
+
+
+
+
 
         </div>
     </div>

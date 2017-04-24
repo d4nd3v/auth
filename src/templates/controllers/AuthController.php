@@ -70,15 +70,15 @@ class AuthController extends BaseController
                     {
                         // trow new Exception to wait a while
                         if (request()->expectsJson()) {
-                            throw new ApiException("throttle", null, trans('auth-d4nd3v.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]));
+                            throw new ApiException("throttle", null, trans('authdd.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]));
                         } else {
                             return redirect(route('login'))
                                 ->withInput(request()->only('email', 'remember'))
-                                ->withErrors([ 'throttle' => trans('auth-d4nd3v.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]) ]);
+                                ->withErrors([ 'throttle' => trans('authdd.throttle', ['seconds' => $this->lockoutTime-$secondsFromLastFail]) ]);
                         }
                     }
                 }
-                if ( ! Auth::attempt($credentials))
+                if ( ! Auth::validate($credentials))
                 {
                     $user->login_attempts++;
                     $user->last_login_attempt = Carbon::now();
@@ -98,7 +98,7 @@ class AuthController extends BaseController
             } else {
                 return redirect(route('login'))
                     ->withInput(request()->only('email', 'remember'))
-                    ->withErrors([ 'invalid_credentials' => trans('auth-d4nd3v.invalid_credentials') ]);
+                    ->withErrors([ 'invalid_credentials' => trans('authdd.invalid_credentials') ]);
             }
         } else {
             $user = Auth::getLastAttempted();
@@ -108,7 +108,7 @@ class AuthController extends BaseController
                 } else {
                     return redirect(route('login'))
                         ->withInput(request()->only('email', 'remember'))
-                        ->withErrors([ 'account_disabled' => trans('auth-d4nd3v.account_disabled') ]);
+                        ->withErrors([ 'account_disabled' => trans('authdd.account_disabled') ]);
                 }
             } else if (!($user->active)) {
                 if (request()->expectsJson()) {
@@ -116,7 +116,7 @@ class AuthController extends BaseController
                 } else {
                     return redirect(route('login'))
                         ->withInput(request()->only('email', 'remember'))
-                        ->withErrors([ 'email_not_confirmed' => trans('auth-d4nd3v.email_not_confirmed') ]);
+                        ->withErrors([ 'email_not_confirmed' => trans('authdd.email_not_confirmed') ]);
                 }
             } else {
                 // succes
@@ -211,7 +211,7 @@ class AuthController extends BaseController
         $user->notify(new \App\Notifications\ActivateAccount($activationToken));
 
         if (request()->expectsJson()) {
-            return response()->json(['data' => ['message' => trans('auth-d4nd3v.activation_mail_sent_again')]], 200);
+            return response()->json(['data' => ['message' => trans('authdd.activation_mail_sent_again')]], 200);
         } else {
             return redirect(route('activate'));
         }
@@ -276,17 +276,17 @@ class AuthController extends BaseController
             if (request()->expectsJson()) {
                 return response()->json([
                     'data' => [
-                        'message' => trans('auth-d4nd3v.reset_email_sent')
+                        'message' => trans('authdd.reset_email_sent')
                     ]], 200);
             } else {
-                return back()->with('status', trans('auth-d4nd3v.reset_email_sent'));
+                return back()->with('status', trans('authdd.reset_email_sent'));
             }
         }
 
         if (request()->expectsJson()) {
             throw new ApiException("reset_email_not_sent");
         } else {
-            return back()->withErrors(['email' => trans('auth-d4nd3v.reset_email_not_sent')]);
+            return back()->withErrors(['email' => trans('authdd.reset_email_not_sent')]);
         }
     }
 
@@ -340,7 +340,7 @@ class AuthController extends BaseController
                 if (request()->expectsJson()) {
                     return response()->json(['data' => [
                         'code' => 'password_changed',
-                        'message' => trans('auth-d4nd3v.password_changed')
+                        'message' => trans('authdd.password_changed')
                     ]], 200);
                 } else {
                     return view('auth.changed');
@@ -351,7 +351,7 @@ class AuthController extends BaseController
                 } else {
                     return redirect(route('showResetForm', [request()->input('token')]))
                         ->withInput(request()->except('password', 'confirm_password'))
-                        ->withErrors(['password_could_not_be_changed' => trans('auth-d4nd3v.password_could_not_be_changed')]);
+                        ->withErrors(['password_could_not_be_changed' => trans('authdd.password_could_not_be_changed')]);
                 }
         }
 
@@ -392,7 +392,7 @@ class AuthController extends BaseController
             $user->notify(new \App\Notifications\ActivateAccount($user->activation->token));
 
             if (request()->expectsJson()) {
-                return response()->json(['data' => ['message' => trans('auth-d4nd3v.account_created')]], 200);
+                return response()->json(['data' => ['message' => trans('authdd.account_created')]], 200);
             } else {
                 return redirect(route('activate'));
             }
@@ -402,7 +402,7 @@ class AuthController extends BaseController
             if (request()->expectsJson()) {
                 throw new ApiException("reactivate_user_not_found");
             } else {
-                return redirect(route('reactivate'))->withErrors(['reactivate_error' => trans('auth-d4nd3v.reactivate_user_not_found')]);
+                return redirect(route('reactivate'))->withErrors(['reactivate_error' => trans('authdd.reactivate_user_not_found')]);
             }
         }
 
@@ -451,7 +451,7 @@ class AuthController extends BaseController
                 throw new ApiException("password_could_not_be_changed");
             } else {
                 return redirect(route('showChangePasswordForm'))
-                    ->withErrors(['password_could_not_be_changed' => trans('auth-d4nd3v.password_could_not_be_changed')]);
+                    ->withErrors(['password_could_not_be_changed' => trans('authdd.password_could_not_be_changed')]);
             }
         } else {
 
@@ -461,7 +461,7 @@ class AuthController extends BaseController
             if (request()->expectsJson()) {
                 return response()->json(['data' => [
                     'code' => 'password_changed',
-                    'message' => trans('auth-d4nd3v.password_changed')
+                    'message' => trans('authdd.password_changed')
                 ]], 200);
             } else {
                 return view('auth.changed');

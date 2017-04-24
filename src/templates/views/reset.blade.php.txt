@@ -1,10 +1,18 @@
 @extends('layouts.master')
 
 
+@section('title')
+
+    {{ trans('authdd.reset_email_title') }}
+
+@stop
+
+
 @section('content')
 
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-md-offset-4">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-md-offset-3">
+
 
             @if($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
@@ -19,22 +27,22 @@
                 <input type="hidden" name="token" value="{{ $token }}">
 
                 <div class="form-group @if ($errors->has('email')) has-error @endif">
-                    <input type="text" name="email" class="form-control" required="required" value="{{ old('email') }}" placeholder="Email address">
+                    <input type="text" name="email" class="form-control" required="required" value="{{ old('email') }}" placeholder="Email">
                     <span style="color: #e51c23;">{{ $errors->first('email') }}</span>
                 </div>
 
                 <div class="form-group @if ($errors->has('password')) has-error @endif">
-                    <input type="password" name="password" class="form-control" required="required" placeholder="New password">
+                    <input type="password" name="password" class="form-control" required="required" placeholder="{{ trans('authdd.new_password') }}">
                     <span style="color: #e51c23;">{{ $errors->first('password') }}</span>
                 </div>
 
                 <div class="form-group @if ($errors->has('password_confirmation')) has-error @endif">
                     <input type="password" name="password_confirmation" class="form-control"
-                           required="required" placeholder="Confirm new password">
+                           required="required" placeholder="{{ trans('authdd.password_confirmation') }}">
                     <span style="color: #e51c23;">{{ $errors->first('password_confirmation') }}</span>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Change password</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 20px;">{{ trans('authdd.change_password_button') }}</button>
             </form>
 
 

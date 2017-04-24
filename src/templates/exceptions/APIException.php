@@ -16,61 +16,61 @@ class ApiException extends Exception
             $message = isset($errors) ? (reset($errors)) : ""; // first element
             $httpStatusCode = 422; // 422 Unprocessable Entity
         } else if ($code=="bad_request") {
-            $message = trans("auth2.bad_request");
+            $message = trans("authdd.bad_request");
             $httpStatusCode = 400; // 400 Bad Request
         } else if($code=="token_not_provided") {
-            $message = trans("auth2.token_not_provided");
+            $message = trans("authdd.token_not_provided");
             $httpStatusCode = 400; // 400 Bad Request
         } else if($code=="token_expired") {
-            $message = trans("auth2.token_expired");
+            $message = trans("authdd.token_expired");
             $httpStatusCode = 401; // 401 Unauthorized (unauthenticated)
         } else if($code=="token_invalid") {
-            $message = trans("auth2.token_invalid");
+            $message = trans("authdd.token_invalid");
             $httpStatusCode = 401; // 401 Unauthorized (unauthenticated)
         } else if($code=="unauthenticated") {
-            $message = trans("auth2.unauthenticated");
+            $message = trans("authdd.unauthenticated");
             $httpStatusCode = 401; // 401 Unauthorized (unauthenticated)
         } else if($code=="not_found") {
-            $message = trans("auth2.not_found");
+            $message = trans("authdd.not_found");
             $httpStatusCode = 404; // 404 Not Found
         } else if($code=="pdo_exception") {
-            $message = trans("auth2.pdo_exception");
+            $message = trans("authdd.pdo_exception");
             $httpStatusCode = 500; // 500 Internal Server Error
         } else if($code=="invalid_role") {
-            $message = trans("auth2.invalid_role");
+            $message = trans("authdd.invalid_role");
             $httpStatusCode = 403; // 403 Forbidden
         } else if($code=="invalid_permission") {
-            $message = trans("auth2.invalid_permission");
+            $message = trans("authdd.invalid_permission");
             $httpStatusCode = 403; // 403 Forbidden
         } else if($code=="invalid_credentials") {
-            $message = trans("auth2.invalid_credentials");
+            $message = trans("authdd.invalid_credentials");
             $httpStatusCode = 401; // 401 Unauthorized (unauthenticated)
         } else if($code=="account_inactive") {
-            $message = trans("auth2.account_inactive");
+            $message = trans("authdd.account_inactive");
             $httpStatusCode = 403;
         } else if($code=="could_not_create_token") {
-            $message = trans("auth2.could_not_create_token");
+            $message = trans("authdd.could_not_create_token");
             $httpStatusCode = 500;
         } else if($code=="reset_email_not_sent") {
-            $message = trans("auth2.reset_email_not_sent");
+            $message = trans("authdd.reset_email_not_sent");
             $httpStatusCode = 400; // 400 Bad Request
         } else if($code=="password_could_not_be_changed") {
-            $message = trans("auth2.password_could_not_be_changed");
+            $message = trans("authdd.password_could_not_be_changed");
             $httpStatusCode = 400; // 400 Bad Request
         } else if($code=="account_disabled") {
-            $message = trans("auth2.account_disabled");
+            $message = trans("authdd.account_disabled");
             $httpStatusCode = 403;
         } else if($code=="email_not_confirmed") {
-            $message = trans("auth2.email_not_confirmed");
+            $message = trans("authdd.email_not_confirmed");
             $httpStatusCode = 403;
         } else if($code=="reactivate_user_not_found") {
-            $message = trans("auth2.reactivate_user_not_found");
+            $message = trans("authdd.reactivate_user_not_found");
             $httpStatusCode = 400;
         } else if($code=="throttle") {
-            $message = trans("auth2.throttle");
+            $message = trans("authdd.throttle");
             $httpStatusCode = 400;
         }  else {
-            $message = trans("auth2.exception");
+            $message = trans("authdd.exception");
             $httpStatusCode = 500;
         }
 

@@ -155,6 +155,16 @@ protected function unauthenticated($request, AuthenticationException $exception)
 
 
 
+## Utile
+
+
+    Test users:
+    <a href="javascript:;" onclick="$('#email').val('test@test.test'); $('#password').val('xxx');">test@test.test</a>
+
+
+
+
+
 
 
 

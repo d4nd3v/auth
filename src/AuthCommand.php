@@ -146,11 +146,18 @@ class AuthCommand extends Command
 
     private function createLang()
     {
+        // EN
         $destionationFolder = resource_path('lang/en');
         if(!\File::exists($destionationFolder)) {
             \File::makeDirectory($destionationFolder, 0755, true);
         }
-        $this->createFileFromTemplate($this->templatePath . 'lang/' . 'auth2.php.txt', $destionationFolder . '/auth2.php');
+        $this->createFileFromTemplate($this->templatePath . 'lang/en/authdd.php.txt', $destionationFolder . '/authdd.php');
+        // RO
+        $destionationFolder = resource_path('lang/ro');
+        if(!\File::exists($destionationFolder)) {
+            \File::makeDirectory($destionationFolder, 0755, true);
+        }
+        $this->createFileFromTemplate($this->templatePath . 'lang/ro/authdd.php.txt', $destionationFolder . '/authdd.php');
     }
 
 
