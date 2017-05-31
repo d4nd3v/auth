@@ -1,59 +1,73 @@
 <?php
-
 return [
-
-
     'account_created' => 'Please check your email to activate your account.',
-
     'invalid_credentials' => 'Please check your username and password and try again',
     'account_inactive' => 'This account is inactive',
     'could_not_create_token' => 'Could not create token. Please try again later.',
-
     'reset_email_sent' => 'Reset email sent, please check your inbox.',
     'reset_email_not_sent' => 'There was a problem sending your reset email, please try again later.',
-
-
     'password_changed' => 'Your password has been changed.',
     'password_could_not_be_changed' => 'Your password could not be changed.',
-
-
-
     'not_found' => 'Sorry, something went wrong.',
     'exception' => 'Sorry, something went wrong.',
     'bad_request' => 'Sorry, something went wrong.',
     'unauthenticated' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically.', /* redirect to login */
     'pdo_exception' => 'Sorry, something went wrong.',
-
-
-    'patient_details_updated' => 'Your data was saved.',
-
-
-
     'token_not_provided' => 'Sorry, something went wrong.',
     'token_expired' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically', /* redirect to login */
     'token_invalid' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically', /* redirect to login */
-
     'invalid_role' => 'Sorry, you are not authorized to make this request.',
     'invalid_permission' => 'Sorry, you are not authorized to make this request.',
-
-
-    'appointment_done' => 'Your appointment was successfully created.',
-    'appointment_slot_not_empty' => 'Sorry, somebody already make an appointment for this hour.',
-
     'reactivate_user_not_found' => 'Account not found or already activated.',
-
-
     'activation_mail_sent_again' => 'Please check your email to activate your account.',
-
     'email_not_confirmed' => 'Before you can login, you must active your account with the code sent to your email address.',
-
-
 	'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
-
     'forgot_password' => "Forgot password?",
     'remember_me' => "Remember me",
     'password' => "Password",
+
+    'login' => "Log in",
+    'login_title' => "Intra in cont",
+    'resend_activation' => 'Click <a href=":url">here</a> to resend the activation email.',
+    'resend_title' => "Retrimite email-ul de activare",
+    'back_to_login' => "Inapoi la login",
+    'send' => "Trimite",
+    'activation_sent_title' => "Activation mail sent",
+    'activation_sent' => "Activation mail sent.",
+    'activation_text' => "Before login, you must activate your account with the code sent to your email address.
+                <br>
+                Please check your email and click the link.
+                <br><br>
+                If you did not receive this email, please check your junk/spam folder.",
+    'reset_email_title' => "Resetare parola",
+    'send_reset_email' => "Send password reset link",
+    'register_title' => "Register",
+    'register_button' => "Register",
+    'password_confirm' => "Password confirm",
+    'change_password_title' => "Change password",
+    'change_password_button' => "Change password",
+    'go_to_login' => "Proceed with the login process",
+    'current_password' => "Current Password",
+    'new_password' => "New Password",
+    'password_confirmation' => "Password Confirmation",
+    'password_changed' => "Your password has been changed.",
+    'email_confirmed' => "Your account has been activated.",
+    'email_confirmation_title' => "Account activation",
+
+    'activate_account_subject' => "Activate your account!",
+    'activate_account_before_btn' => "You are receiving this email because you recently registered for an account with us.
+            \r\nClick the button below to activate your account:",
+    'activate_account_btn' => "Activate account",
+    'activate_account_after_btn' => "If you did not initiate the request, please ignore this message.",
+
+    'password_reset_subject' => "Reset Password",
+    'password_reset_before_btn' => "You are receiving this email because we received a password reset request for your account.
+             \r\nClick the button below to reset your password:",
+    'password_reset_btn' => "Reset Password",
+    'password_reset_after_btn' => "If you did not request a password reset, no further action is required.",
+
+
+
 
 
 ];

@@ -1,61 +1,70 @@
 <?php
-
 return [
-
-
     'account_created' => 'Please check your email to activate your account.',
-
     'invalid_credentials' => 'Please check your username and password and try again',
     'account_inactive' => 'This account is inactive',
     'could_not_create_token' => 'Could not create token. Please try again later.',
-
     'reset_email_sent' => 'Reset email sent, please check your inbox.',
     'reset_email_not_sent' => 'There was a problem sending your reset email, please try again later.',
-
-
     'password_changed' => 'Your password has been changed.',
     'password_could_not_be_changed' => 'Your password could not be changed.',
-
-
-
     'not_found' => 'Sorry, something went wrong.',
     'exception' => 'Sorry, something went wrong.',
     'bad_request' => 'Sorry, something went wrong.',
     'unauthenticated' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically.', /* redirect to login */
     'pdo_exception' => 'Sorry, something went wrong.',
-
-
-    'patient_details_updated' => 'Your data was saved.',
-
-
-
     'token_not_provided' => 'Sorry, something went wrong.',
     'token_expired' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically', /* redirect to login */
     'token_invalid' => 'Sorry, your session has expired. To protect your account, you need to confirm your password periodically', /* redirect to login */
-
     'invalid_role' => 'Sorry, you are not authorized to make this request.',
     'invalid_permission' => 'Sorry, you are not authorized to make this request.',
-
-
-    'appointment_done' => 'Your appointment was successfully created.',
-    'appointment_slot_not_empty' => 'Sorry, somebody already make an appointment for this hour.',
-
     'reactivate_user_not_found' => 'Account not found or already activated.',
-
-
     'activation_mail_sent_again' => 'Please check your email to activate your account.',
-
     'email_not_confirmed' => 'Before you can login, you must active your account with the code sent to your email address.',
-
-
 	'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
-
-
-
     'forgot_password' => "Am uitat parola",
     'remember_me' => "Tine-mă minte",
     'password' => "Parola",
+
+    'login' => "Intra in cont",
+    'login_title' => "Intra in cont",
+    'resend_activation' => 'Click <a href=":url">aici</a> pentru a retrimite email-ul de activare.',
+    'resend_title' => "Retrimite email-ul de activare",
+    'back_to_login' => "Inapoi la login",
+    'send' => "Trimite",
+    'activation_sent_title' => "E-mail-ul de activare a fost trimis",
+    'activation_sent' => "E-mail-ul de activare a fost trimis.",
+    'activation_text' => "Inainte sa te autentifici, trebuie sa activezi contul folosind codul trimis pe adresa ta de email.
+                            <br>
+                            Te rugam verifica email-ul si da click pe linkul de activare.
+                            <br><br>
+                            Daca nu ai primit email-ul, te rugam verifica folderul spam.",
+    'reset_email_title' => "Resetare parola",
+    'send_reset_email' => "Trimite linkul de resetare parola",
+    'register_title' => "Cont nou",
+    'register_button' => "Creeaza cont",
+    'password_confirm' => "Repeta parola",
+    'change_password_title' => "Schimba parola",
+    'change_password_button' => "Schimba parola",
+    'go_to_login' => "Continua la pagina de autentificare",
+    'current_password' => "Parola actuala",
+    'new_password' => "Noua parola",
+    'password_confirmation' => "Confirma noua parola",
+    'password_changed' => "Parola a fost schimbata.",
+    'email_confirmed' => "Contul a fost activat.",
+    'email_confirmation_title' => "Activare cont",
+
+    'activate_account_subject' => "Activare cont!",
+    'activate_account_before_btn' => "Ai primit acest email fiindca ti-ai inregistrat un cont nou.
+            \r\nClick pe butonul de mai jos pentru a activa contul:",
+    'activate_account_btn' => "Activeaza contul",
+    'activate_account_after_btn' => "Daca nu ai facut tu aceasta cerere, te rugam ignora acest mesaj.",
+
+    'password_reset_subject' => "Reseteaza parola",
+    'password_reset_before_btn' => "Ai primit acest email fiindca am primit o cerere de resetare a parolei pentru contul tau.
+             \r\nClick pe butonul de mai jos pentru a reseta parola.",
+    'password_reset_btn' => "Reseteaza parola",
+    'password_reset_after_btn' => "Daca nu ai facut tu cerere de resetare a parolei, nu sunt necesari alti pasi.",
 
 
 

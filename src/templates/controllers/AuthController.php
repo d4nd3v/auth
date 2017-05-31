@@ -314,7 +314,7 @@ class AuthController extends BaseController
                 throw new ApiException("validation", array_combine($validator->errors()->keys(), $validator->errors()->all()));
             } else {
                 $errorMessages = $validator->errors()->all();
-                return redirect(route('showResetForm', [request()->input('token')]))
+                return redirect(route('password.reset', [request()->input('token')]))
                     ->withInput(request()->except('password', 'confirm_password'))
                     ->withErrors([
                         'login_error' => $errorMessages[0],
@@ -349,7 +349,7 @@ class AuthController extends BaseController
                 if (request()->expectsJson()) {
                     throw new ApiException("password_could_not_be_changed");
                 } else {
-                    return redirect(route('showResetForm', [request()->input('token')]))
+                    return redirect(route('password.reset', [request()->input('token')]))
                         ->withInput(request()->except('password', 'confirm_password'))
                         ->withErrors(['password_could_not_be_changed' => trans('authdd.password_could_not_be_changed')]);
                 }
