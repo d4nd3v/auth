@@ -43,6 +43,10 @@ class ActivateAccount extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject(trans('authdd.activate_account_subject'))
+            ->line([trans('authdd.activate_account_before_btn')])
+            ->action(trans('authdd.activate_account_btn'), url('account/activate', $this->token))
+            ->line(trans('authdd.activate_account_after_btn'));
     }
 
     /**
