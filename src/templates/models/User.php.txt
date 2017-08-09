@@ -42,4 +42,12 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Activation');
     }
+
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($token));
+    }
+
+
 }
