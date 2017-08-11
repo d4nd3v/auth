@@ -389,6 +389,15 @@ class AuthController extends BaseController
         $user = User::where(['email'=>request()->email, 'active'=>0])->first();
         if($user) {
 
+            if(!isset($user->activation->token)) {
+                $activationToken = str_random(60);
+                Activation::create([
+                    'user_id' => $user->id,
+                    'token'   => $activationToken
+                ]);
+                $user->activation->token = $activationToken;
+            }
+
             $user->notify(new \App\Notifications\ActivateAccount($user->activation->token));
 
             if (request()->expectsJson()) {
@@ -446,7 +455,17 @@ class AuthController extends BaseController
         ];
 
 
-        if (!Auth::validate($credentials)) {
+
+        // if password is empty (account made with Facebook or Google or Twitter or whatever)
+        // allow user to set a password for his email address
+        $socialAccount = false;
+        if(empty(auth()->user()->getAuthPassword()) && !empty(auth()->user()->email)) {
+            $socialAccount = true;
+        }
+
+
+
+        if (!Auth::validate($credentials) && (!$socialAccount)) {
             if (request()->expectsJson()) {
                 throw new ApiException("password_could_not_be_changed");
             } else {
